@@ -8,7 +8,7 @@ namespace AddressBookSystem
         {
             AddressBookRepo addressBookRepo = new AddressBookRepo();
 
-            addressBookRepo.RetrievePersonTypeWithName();
+            addressBookRepo.CountAddressByType();
         }
     }
 }

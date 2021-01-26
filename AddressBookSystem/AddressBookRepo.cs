@@ -232,5 +232,34 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
+        public void CountAddressByType()
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("CountAddressByType", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                this.sqlConnection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        Console.WriteLine("There are {0} addresses counted by Person type ", reader.GetInt32(0));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Couldn't found any data");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
     }
 }
