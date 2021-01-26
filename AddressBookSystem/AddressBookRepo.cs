@@ -105,6 +105,40 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
+        public void RetrievePersonToCityOrState()
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("RetrieveCityOrState", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                this.sqlConnection.Open();
+                 SqlDataReader reader = command.ExecuteReader();
+                if(reader.HasRows)
+                {
+                    while(reader.Read())
+                    {
+                        string fname = reader.GetString(0);
+                        string lname = reader.GetString(1);
+                        string cityName = reader.GetString(2);
+                        string stateName = reader.GetString(3);
+                        Console.WriteLine("{0}, {1}, {2}, {3} ", fname, lname, cityName, stateName);
+                        Console.WriteLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Couldn't found any data");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
         
     }
 }
