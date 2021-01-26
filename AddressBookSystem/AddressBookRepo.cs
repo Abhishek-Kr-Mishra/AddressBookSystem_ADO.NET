@@ -10,7 +10,7 @@ namespace AddressBookSystem
     {
         public static string connectionString = "Server=(Localdb)\\MSSQLLocalDB;database=AddressBookServiceDB;Trusted_Connection=true";
         SqlConnection sqlConnection = new SqlConnection(connectionString);
-        public bool InseertAddressToAddressBook(AddressBook addressBook)
+        public bool InsertAddressToAddressBook(AddressBook addressBook)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
-        public bool updateAddress(AddressBook addressBook, int BookID)
+        public bool UpdateAddress(AddressBook addressBook)
         {
             try
             {
@@ -80,5 +80,31 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
+        public bool DeleteAddress(string firstName)
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("deleteAddress", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FirstName", firstName);
+                this.sqlConnection.Open();
+                var result = command.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (result != 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
+        
     }
 }
