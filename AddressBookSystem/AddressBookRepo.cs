@@ -203,5 +203,34 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
+        public void RetrievePersonTypeWithName()
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("RetrievePersonTypeAlongName", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                this.sqlConnection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("{0}, {1}, {2} ", reader.GetString(0), reader.GetString(1), reader.GetString(2));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No Data Found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
     }
 }
