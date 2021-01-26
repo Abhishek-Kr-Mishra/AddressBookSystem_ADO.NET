@@ -46,5 +46,39 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
+        public bool updateAddress(AddressBook addressBook, int BookID)
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("updateAddress", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FirstName", addressBook.FirstName);
+                command.Parameters.AddWithValue("@LastName", addressBook.LastName);
+                command.Parameters.AddWithValue("@PersonAddress", addressBook.PersonAddress);
+                command.Parameters.AddWithValue("@PhoneNumber", addressBook.PhoneNumber);
+                command.Parameters.AddWithValue("@EmailID", addressBook.EmailID);
+                command.Parameters.AddWithValue("@CountryID", addressBook.CountryID);
+                command.Parameters.AddWithValue("@StateID", addressBook.StateID);
+                command.Parameters.AddWithValue("@CityID", addressBook.CityID);
+                command.Parameters.AddWithValue("@ZipID", addressBook.ZipID);
+                command.Parameters.AddWithValue("@PersonTypeID", addressBook.PersonTypeID);
+                this.sqlConnection.Open();
+                var result = command.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (result != 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
     }
 }
