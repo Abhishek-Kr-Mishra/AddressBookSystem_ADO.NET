@@ -162,5 +162,46 @@ namespace AddressBookSystem
                 this.sqlConnection.Close();
             }
         }
+        public void SortByPersonName()
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("SortByPersonName", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                this.sqlConnection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int bookID = reader.GetInt32(0);
+                        string fname = reader.GetString(1);
+                        string lname = reader.GetString(2);
+                        string personAddress = reader.GetString(3);
+                        long phoneNumber = reader.GetInt64(4);
+                        string emailID = reader.GetString(5);
+                        int countryID = reader.GetInt32(6);
+                        int stateID = reader.GetInt32(7);
+                        int cityID = reader.GetInt32(8);
+                        int zipID = reader.GetInt32(9);
+                        int personTypeID = reader.GetInt32(10);
+                        Console.WriteLine("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}", bookID, fname, lname, personAddress, phoneNumber,
+                                          emailID, countryID, stateID, cityID, zipID, personTypeID);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No Data Found");
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
     }
 }
