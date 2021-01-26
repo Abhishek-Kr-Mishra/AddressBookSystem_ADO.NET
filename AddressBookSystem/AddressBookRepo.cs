@@ -139,6 +139,28 @@ namespace AddressBookSystem
                 sqlConnection.Close();
             }
         }
-        
+        public void CountPersonByCityOrState()
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("CountRowByCityAndState", sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                this.sqlConnection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("There are {0} Persons in table by City Count and {1} Persons by state Count ",
+                                      reader.GetInt32(0), reader.GetInt32(1));
+                }
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.sqlConnection.Close();
+            }
+        }
     }
 }
